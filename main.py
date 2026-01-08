@@ -1,6 +1,6 @@
 
 from contextlib import asynccontextmanager
-from fastapi import Request
+from fastapi import Request,Depends
 from fastapi.responses import JSONResponse
 from utils.logger import get_logger
 
@@ -13,6 +13,9 @@ from api.quiz.generate import router as generate_quiz_router
 from api.quiz.translate import router as translate_auiz_router
 from api.vishnugpt.chat import router as vishugpt_chat_router
 from api.vishnugpt.sessions import router as vishnugpt_session_router
+from api.quiz.fetchquiz import router as fetch_quiz
+from api.quiz.fetchquiz import router as fetch_today_quiz
+from core.auth import static_auth
 
 logger = get_logger('Server')
 
@@ -35,12 +38,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chat_router, prefix="/bot",tags=['chatbot'])
-app.include_router(history_router, prefix="/bot",tags=['chatbot'])
-app.include_router(generate_quiz_router,prefix="/quiz", tags=["Quiz"])
-app.include_router(translate_auiz_router,prefix="/quiz", tags=["Quiz"])
-app.include_router(vishugpt_chat_router, prefix="/vishnugpt",tags=['vishnugpt'])
-app.include_router(vishnugpt_session_router, prefix="/vishnugpt",tags=['vishnugpt'])
+
+
+app.include_router(chat_router, prefix="/bot",dependencies=[Depends(static_auth)])
+app.include_router(history_router, prefix="/bot",dependencies=[Depends(static_auth)])
+app.include_router(generate_quiz_router,prefix="/quiz", tags=["Quiz"],dependencies=[Depends(static_auth)])
+app.include_router(translate_auiz_router,prefix="/quiz", tags=["Quiz"],dependencies=[Depends(static_auth)])
+app.include_router(fetch_quiz,prefix="/quiz",tags=["Quiz"],dependencies=[Depends(static_auth)])
+app.include_router(fetch_today_quiz,prefix="/quiz",tags=["Quiz"],dependencies=[Depends(static_auth)])
+app.include_router(vishugpt_chat_router, prefix="/vishnugpt",tags=['vishnugpt'],dependencies=[Depends(static_auth)])
+app.include_router(vishnugpt_session_router, prefix="/vishnugpt",tags=['vishnugpt'],dependencies=[Depends(static_auth)])
 
 
 @app.get("/")
