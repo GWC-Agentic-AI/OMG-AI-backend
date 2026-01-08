@@ -11,6 +11,8 @@ from api.chatbot.chat import router as chat_router
 from api.chatbot.history import router as history_router
 from api.quiz.generate import router as generate_quiz_router
 from api.quiz.translate import router as translate_auiz_router
+from api.quiz.fetchquiz import router as fetch_quiz
+from api.quiz.fetchquiz import router as fetch_today_quiz
 
 logger = get_logger('Server')
 
@@ -37,6 +39,10 @@ app.include_router(chat_router, prefix="/bot")
 app.include_router(history_router, prefix="/bot")
 app.include_router(generate_quiz_router,prefix="/quiz", tags=["Quiz"])
 app.include_router(translate_auiz_router,prefix="/quiz", tags=["Quiz"])
+app.include_router(generate_quiz_router,prefix="/quiz", tags=["Quiz"])
+app.include_router(translate_auiz_router,prefix="/quiz", tags=["Quiz"])
+app.include_router(fetch_quiz,prefix="/quiz",tags=["Quiz"])
+app.include_router(fetch_today_quiz,prefix="/quiz",tags=["Quiz"])
 
 
 @app.get("/")
