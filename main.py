@@ -11,6 +11,8 @@ from api.chatbot.chat import router as chat_router
 from api.chatbot.history import router as history_router
 from api.quiz.generate import router as generate_quiz_router
 from api.quiz.translate import router as translate_auiz_router
+from api.vishnugpt.chat import router as vishugpt_chat_router
+from api.vishnugpt.sessions import router as vishnugpt_session_router
 
 logger = get_logger('Server')
 
@@ -33,10 +35,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chat_router, prefix="/bot")
-app.include_router(history_router, prefix="/bot")
+app.include_router(chat_router, prefix="/bot",tags=['chatbot'])
+app.include_router(history_router, prefix="/bot",tags=['chatbot'])
 app.include_router(generate_quiz_router,prefix="/quiz", tags=["Quiz"])
 app.include_router(translate_auiz_router,prefix="/quiz", tags=["Quiz"])
+app.include_router(vishugpt_chat_router, prefix="/vishnugpt",tags=['vishnugpt'])
+app.include_router(vishnugpt_session_router, prefix="/vishnugpt",tags=['vishnugpt'])
 
 
 @app.get("/")
