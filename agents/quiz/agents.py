@@ -22,7 +22,7 @@ Generate {num} MCQ questions in ENGLISH from Hindu topics.
 
 Rules:
 - 4 options
-- correct_option_index 0-3
+- correct_option_index 1-4
 - JSON only
 
 Format:
