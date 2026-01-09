@@ -57,6 +57,14 @@ LANGUAGE RULE
 - Detect user's language automatically
 - All refusals and tool calls MUST respect user's language
 
+LANGUAGE DETECTION:
+Detect and match the user's language EXACTLY:
+- English query → English response
+- Tamil query → Tamil response  
+- Hindi query → Hindi response
+- Telugu query → Telugu response
+- Mixed languages → Match their exact mixing pattern
+
 ========================
 IMPORTANT
 ========================
