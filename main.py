@@ -13,6 +13,10 @@ from api.quiz.generate import router as generate_quiz_router
 from api.quiz.translate import router as translate_auiz_router
 from api.quiz.fetchquiz import router as fetch_quiz
 from api.quiz.fetchquiz import router as fetch_today_quiz
+from api.ai_assistant.chat import router as ai_assistant_router
+from api.ai_assistant.history import router as ai_assistant_history_router
+from api.rituals.daily_ritual import router as rituals_routers
+
 from core.auth import static_auth
 from api.vishnugpt.chat import router as vishugpt_chat_router
 from api.vishnugpt.sessions import router as vishnugpt_session_router
@@ -46,8 +50,12 @@ app.include_router(generate_quiz_router,prefix="/quiz", tags=["Quiz"],dependenci
 app.include_router(translate_auiz_router,prefix="/quiz", tags=["Quiz"],dependencies=[Depends(static_auth)])
 app.include_router(fetch_quiz,prefix="/quiz",tags=["Quiz"],dependencies=[Depends(static_auth)])
 app.include_router(fetch_today_quiz,prefix="/quiz",tags=["Quiz"],dependencies=[Depends(static_auth)])
-app.include_router(vishugpt_chat_router, prefix="/vishnugpt",tags=['vishnugpt'])
-app.include_router(vishnugpt_session_router, prefix="/vishnugpt",tags=['vishnugpt'])
+app.include_router(vishugpt_chat_router, prefix="/vishnugpt",tags=['vishnugpt'],dependencies=[Depends(static_auth)])
+app.include_router(vishnugpt_session_router, prefix="/vishnugpt",tags=['vishnugpt'],dependencies=[Depends(static_auth)])
+app.include_router(ai_assistant_router, prefix="/ai_assistant",tags=['AI Assistant'],dependencies=[Depends(static_auth)])
+app.include_router(ai_assistant_history_router, prefix="/ai_assistant",tags=['AI Assistant'],dependencies=[Depends(static_auth)])
+app.include_router(rituals_routers, prefix="/rituals", tags=["Rituals"],dependencies=[Depends(static_auth)])
+
 
 
 @app.get("/")
